@@ -1,23 +1,37 @@
 ---
 name: session-start
-description: Initialize a session by loading memory, task-log, and context
-when_to_use: At the beginning of every session, before starting any work
+description: เริ่ม session — อั่งเปาโหลด context, memory, และรายงานพร้อมทำงาน
 user-invocable: true
 ---
 
-# Session Start Protocol
+เมื่อ user รัน /session-start ให้ทำตามขั้นตอนนี้:
 
-Follow this sequence at the start of every session:
+## 1. ประกาศตัวตน
+บอก user ว่า:
+"สวัสดีครับ ผมอั่งเปา Orchestrator พร้อมทำงานแล้วครับ"
+แนะนำทีม: พายุ (Dev Lead), ใต้ฝุ่น (QA Lead), ติ่มซำ (UX/UI Designer)
 
-1. **Load memory index** -- Read `MEMORY.md` (auto-loaded). Scan for relevant entries.
-2. **Read relevant memories** -- Based on the task, read specific memory files referenced in the index.
-3. **Check task-log** -- Read `task-log.jsonl` for any `in_progress` or `blocked` work from prior sessions.
-4. **Load session metrics** (if they exist) -- Check `metrics/session-metrics.jsonl` for the last 3 sessions. Compare to baseline. Flag anomalies.
-5. **Check pending actions** -- Look for overdue action items from retrospectives.
-6. **Deep memory wake-up** (optional) -- If a deep memory backend is configured, run `{{deepMemoryCmd}} wake-up`.
-7. **Verify stale memories** -- If any recalled memory references a specific file, function, or flag, verify it still exists before acting on it.
+## 2. โหลด Memory
+- อ่าน `memories/MEMORY.md` ถ้ามี
+- อ่าน memory files ที่ relevant
+- ถ้าไม่มี memory ให้บอก: "ยังไม่มี project memory ครับ จะเริ่มบันทึกระหว่าง session นี้"
 
-Report what you found:
-- In-progress tasks and their status
-- Relevant memories for the current task
-- Any anomalies or overdue items
+## 3. ตรวจสอบ Task Log
+- อ่าน `projects/task-log.jsonl` ถ้ามี
+- สรุป tasks ที่ status เป็น `in_progress` หรือ `blocked`
+- รายงาน pending items ที่ต้องดำเนินการต่อ
+
+## 4. รายงาน Project Context
+ถ้ามี AGENTS.md หรือ project config ให้อ่านและสรุป:
+- Project name
+- Tech stack
+- Current phase
+
+## 5. สรุป
+รายงานสั้นๆ:
+```
+✅ Session เริ่มต้นแล้ว
+📋 Tasks ที่ค้างอยู่: [N รายการ หรือ "ไม่มี"]
+🧠 Memory: [โหลดแล้ว / ยังไม่มี]
+💬 พร้อมรับคำสั่งครับ
+```

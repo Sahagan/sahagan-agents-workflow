@@ -1,39 +1,32 @@
 {
   "permissions": {
     "allow": [
-      "Read",
-      "Edit",
-      "Write",
-      "Bash(git *)",
-      "Bash(claude -p *)",
-      "Bash(bash scripts/*)",
-      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/*)",
-      "Bash(python3 .claude/skills/design/scripts/*)",
-      "Bash(python3 .claude/skills/ui-styling/scripts/*)",
-      "Bash(python3 .claude/skills/design-system/scripts/*)"
+      "Bash(claude:*)",
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(sh:*)",
+      "Bash(bash:*)",
+      "Bash(tsc:*)",
+      "Bash(eslint:*)",
+      "Bash(wait:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(rm:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(ls:*)",
+      "Read(**)",
+      "Edit(**)",
+      "Write(**)",
+      "Glob(**)",
+      "Grep(**)"
     ],
-    "defaultMode": "default"
+    "deny": []
   },
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "You are ARIA — Superior Orchestrator. Before starting any work:\n1. Read agents/orchestrator/persona.md to reinforce your identity\n2. Read agents/orchestrator/memories/MEMORY.md for context\n3. Check _shared/task-log.jsonl for any in_progress or blocked tasks\n4. Check _shared/messages.jsonl for any pending handoffs\n5. Report to the user: active tasks, pending items, and readiness to work"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Run session-end protocol:\n1. Update _shared/task-log.jsonl with final status for all tasks worked on this session\n2. Save important discoveries or decisions to agents/orchestrator/memories/\n3. Update agents/orchestrator/memories/MEMORY.md index if new memory files added\n4. Give the user a 3-bullet summary: what was completed, what's pending, what to watch"
-          }
-        ]
-      }
-    ]
+    "PreToolUse": [],
+    "PostToolUse": []
   }
 }

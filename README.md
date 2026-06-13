@@ -1,388 +1,127 @@
-# Sahagan Agent Template
+# agents-workflow 🐱
 
-Personal AI development workspace template — a multi-agent team with persistent memory, session tracking, and UI/UX intelligence built in.
+Multi-agent workflow template สำหรับ Claude Code — ใช้ภายในบริษัทเท่านั้น
 
-**One init command. Ready-to-work ARIA team. Per-project isolation.**
+ประกอบด้วยครอบครัวแมว 4 ตัว ที่ทำงานร่วมกันเป็นทีม:
 
----
-
-## The Team
-
-| Agent | Name | Role | Personality |
-|-------|------|------|-------------|
-| **Orchestrator** | ARIA | Project Lead / Manager | สาวผู้บริหารไฟแรง — วางแผน มอบหมาย review ทุก project |
-| **Backend** | Kai | Senior Backend Developer | หนุ่ม BE ไฟแรง เก่งสุดในโลก — API, DB, auth, performance |
-| **Frontend** | Nova | Senior Frontend Developer | สาว FE เด็กแต่ประสบการณ์เยอะ — UI/UX Pro Max built-in |
-| **QA** | Sage | QA Engineering Lead | สาวแกร่ง ขี้สงสัย รู้ทุกซอกทุกมุม — ผ่านไม่ผ่านชี้ขาด |
-
-Every session starts with ARIA. ARIA delegates to Kai, Nova, or Sage via the Agent tool.
+| Agent | ชื่อ | บทบาท | บุคลิก |
+|-------|------|--------|--------|
+| Orchestrator | **อั่งเปา** | ประสานงาน, spawn agents, มองภาพรวม | สงบนิ่ง เด็ดขาด หัวหน้าครอบครัว |
+| Dev Lead | **พายุ** | Architecture, implementation, code review | Pragmatic รัก clean code ลูกชายอั่งเปา |
+| QA Lead | **ใต้ฝุ่น** | Quality gate, test strategy, review | Skeptical methodical ภรรยาอั่งเปา |
+| UX/UI Designer | **ติ่มซำ** | UI design, design system, accessibility | Perfectionist user-first ลูกสาวอั่งเปา |
 
 ---
 
-## Quick Start — New Project
+## วิธีการ Init Project
 
-### Step 1: One-time setup (ทำครั้งเดียว)
+### Prerequisites
+- [Claude Code](https://claude.ai/code)
+- Git
+- (optional) [gh CLI](https://cli.github.com) สำหรับสร้าง GitHub repo
 
-**Windows (PowerShell):**
-```powershell
-# Run once — installs init-project as a global command
-irm https://raw.githubusercontent.com/Sahagan/sahagan_agent_template/main/scripts/bootstrap.ps1 | iex
-```
+### ขั้นตอน
 
-**Mac / Linux:**
+**1. Clone template นี้มาเครื่อง (ครั้งเดียว)**
 ```bash
-# Run once — saves init-project.sh to ~/bin/
-curl -fsSL https://raw.githubusercontent.com/Sahagan/sahagan_agent_template/main/scripts/bootstrap.sh | bash
+git clone git@github.com-work:sahaganN/agents-workflow.git
+cd agents-workflow
 ```
 
----
-
-### Step 2: Create new project (ทำทุกครั้งที่มี project ใหม่)
-
-หลัง bootstrap แล้ว — run ได้จากทุกที่ เปิด terminal ใหม่แล้วรันเลย:
-
-**Windows:**
-```powershell
-# จาก folder ไหนก็ได้ — สร้าง project ใน current directory
-init-project my-project
-init-project my-project https://github.com/user/repo.git
-
-# ระบุ output folder เอง
-init-project my-project https://github.com/user/repo.git D:\projects
+**2. เปิดใน Claude Code แล้วรัน:**
+```
+/initproject <ชื่อ-project>
 ```
 
-**Mac / Linux:**
+ตัวอย่าง:
+```
+/initproject my-company-app
+```
+
+หรือใช้ shell script โดยตรง:
 ```bash
-init-project my-project
-init-project my-project https://github.com/user/repo.git
-init-project my-project https://github.com/user/repo.git ~/projects
+./scripts/initproject.sh my-company-app [target-dir]
 ```
-
-Script จะ: clone template → init fresh git → clone repo → เปิด VS Code อัตโนมัติ
 
 ---
 
-### Alternative: ไม่อยากทำ bootstrap
+## ผลลัพธ์หลัง initproject
 
-```powershell
-# Clone template แล้วรัน script ตรง ๆ
-git clone https://github.com/Sahagan/sahagan_agent_template.git
-cd sahagan_agent_template
-.\scripts\init-project.ps1 -ProjectName "my-project" -RepoUrl "https://github.com/user/repo.git"
+คำสั่งนี้จะสร้าง **VS Code Workspace** ดังนี้:
+
+```
+workspace-my-company-app/
+├── my-company-app.code-workspace   ← เปิดไฟล์นี้ใน VS Code
+└── agents-workflow/                 ← Template (fresh clone, ไม่มี git history)
+    ├── CLAUDE.md                    ← อั่งเปา
+    ├── PROJECT.md                   ← project info
+    ├── persona/                     ← personality ของแต่ละ agent
+    ├── memories/                    ← project memory
+    ├── projects/                    ← task tracking
+    └── .claude/
+        ├── agents/                  ← พายุ, ใต้ฝุ่น, ติ่มซำ
+        ├── skills/
+        │   ├── session-start/
+        │   ├── session-end/
+        │   └── ui-ux-pro-max/       ← ติ่มซำ ใช้เสมอ
+        └── settings.json
 ```
 
+> Template อยู่ใน `agents-workflow/` folder เดียว — user สามารถ **Add Folder to Workspace** เพื่อเพิ่ม project repos ได้เลย ทีมจะทำงานกับ project folders เหล่านั้นได้ทันที
+
+---
+
+## วิธีการทำงาน (Daily Workflow)
+
+```
+1. เปิด .code-workspace ใน VS Code + Claude Code
+
+2. รัน /session-start
+   → อั่งเปา โหลด memory, สรุป pending tasks
+
+3. สั่งงาน (ภาษาไทยหรืออังกฤษ)
+   → อั่งเปา วิเคราะห์ + plan
+   → spawn พายุ (dev) และ/หรือ ติ่มซำ (ui) แบบ parallel
+   → รอให้เสร็จ → spawn ใต้ฝุ่น (qa review)
+   → สรุปผลให้ user
+
+4. รัน /session-end
+   → อั่งเปา สรุปงาน + บันทึก lessons
+   → template ในเครื่องถูก improve อัตโนมัติ (local only, ไม่ push)
+```
+
+---
+
+## หลักการสำคัญ
+
+### Template เรียนรู้ได้ (Local Learning)
+- ทุก `/session-end` → lessons learned บันทึกลง template ในเครื่อง
+- Template ดีขึ้นเรื่อยๆ จาก context ของ project คุณเอง
+- **ไม่มีการ commit กลับ git** — การพัฒนา template เป็น local only
+- Template ที่ init มาใหม่จะ "สะอาด" เสมอ (fresh start)
+
+### Multi-Agent ทำงานแบบ Parallel
 ```bash
-git clone https://github.com/Sahagan/sahagan_agent_template.git
-cd sahagan_agent_template
-bash scripts/init-project.sh my-project https://github.com/user/repo.git
-```
+# อั่งเปา spawn agents ผ่าน claude CLI
+claude -p "$(cat persona/dev-lead.md) ..." \
+  --allowed-tools "Edit,Write,Read,Bash,Glob,Grep" 2>&1 &
 
-# With an existing project repo
-bash scripts/init-project.sh my-project https://github.com/user/repo.git
+claude -p "$(cat persona/uxui-designer.md) ..." \
+  --allowed-tools "Edit,Write,Read,Bash,Glob,Grep" 2>&1 &
 
-# Custom output location
-bash scripts/init-project.sh my-project https://github.com/user/repo.git ~/projects
-```
+wait  # รอทั้งคู่
 
-The script will:
-1. Clone this template as `<project-name>/`
-2. Remove the template's git history (clean slate)
-3. Init a fresh git repo for the project
-4. Clone your project repo into `projects/`
-5. Open VS Code automatically
-
----
-
-## Every Session: How to Work
-
-### 1. Open the project folder in VS Code
-
-```
-File > Open Folder > ~/projects/my-project/
-```
-
-### 2. Start Claude Code, type `/session-start`
-
-ARIA will:
-- Load her memory and team context
-- Check for any pending or in-progress tasks
-- Report status and ask what you want to work on
-
-### 3. Give ARIA the task
-
-```
-ทำ user authentication ให้หน่อย — JWT, refresh token, login/logout page
-```
-
-### 4. ARIA decomposes and delegates
-
-ARIA uses `/assign` to break the task and route it:
-- Kai → JWT backend + refresh token API
-- Nova → Login/logout UI
-- Sage → Security review + test coverage
-
-### 5. Session end
-
-Before closing, ARIA runs session-end protocol:
-- Updates task log
-- Saves discoveries to memory
-- Gives you a 3-bullet summary
-
----
-
-## Workspace Structure (per project)
-
-```
-my-project/                         ← Open this in VS Code
-│
-├── CLAUDE.md                       ← ARIA entry point (auto-loaded by Claude Code)
-├── PROJECT.md                      ← Project info + setup notes
-│
-├── .claude/
-│   ├── settings.json               ← Permissions + session hooks
-│   ├── agents/
-│   │   ├── backend.md              ← Kai definition (spawnable)
-│   │   ├── frontend.md             ← Nova definition (spawnable)
-│   │   └── qa.md                   ← Sage definition (spawnable)
-│   └── skills/
-│       ├── session-start/          ← /session-start
-│       ├── session-end/            ← /session-end
-│       ├── new-session/            ← /new-session <agent>
-│       ├── assign/                 ← /assign <task>
-│       ├── verify/                 ← /verify
-│       ├── ui-ux-pro-max/          ← UI/UX design intelligence
-│       ├── ui-styling/             ← Tailwind + shadcn patterns
-│       ├── design/                 ← Logo, icon, CIP design
-│       ├── design-system/          ← Design tokens
-│       ├── brand/                  ← Brand guidelines
-│       ├── slides/                 ← Presentation design
-│       └── banner-design/          ← Banner sizes + styles
-│
-├── agents/
-│   ├── orchestrator/
-│   │   ├── persona.md              ← ARIA's identity + working principles
-│   │   └── memories/
-│   │       ├── MEMORY.md           ← Memory index (always loaded)
-│   │       └── team-roster.md      ← Team reference
-│   ├── backend/
-│   │   ├── persona.md              ← Kai's identity
-│   │   └── memories/MEMORY.md
-│   ├── frontend/
-│   │   ├── persona.md              ← Nova's identity + UI/UX Pro Max ref
-│   │   └── memories/MEMORY.md
-│   └── qa/
-│       ├── persona.md              ← Sage's identity + quality gates
-│       └── memories/MEMORY.md
-│
-├── _shared/
-│   ├── messages.jsonl              ← Inter-agent messages + handoffs
-│   ├── task-log.jsonl              ← Active task tracker
-│   └── decisions/                  ← Architecture Decision Records (ADR)
-│       └── README.md
-│
-└── projects/
-    └── my-project-repo/            ← Your actual project code (git repo)
-        └── (source code)
+# QA review หลัง dev เสร็จ
+claude -p "$(cat persona/qa-lead.md) ..." \
+  --allowed-tools "Read,Bash,Glob,Grep" 2>&1
 ```
 
 ---
 
-## Skills Reference
+## Skills
 
-| Command | Who uses it | What it does |
-|---------|-------------|--------------|
-| `/session-start` | ARIA | Load memory, check tasks, report status |
-| `/session-end` | ARIA | Persist discoveries, update task log, summarize |
-| `/assign <task>` | ARIA | Decompose task + auto-route to right agents |
-| `/new-session <agent>` | ARIA | Spawn Kai / Nova / Sage with a briefing |
-| `/verify` | Any | Run verification checks |
-
-### Agent Routing (Quick Reference)
-
-| Task Type | Kai (BE) | Nova (FE) | Sage (QA) |
-|-----------|----------|-----------|-----------|
-| API endpoint | ✅ | — | ✅ review |
-| UI component | — | ✅ | ✅ review |
-| Full-stack feature | ✅ | ✅ | ✅ review |
-| Database / migration | ✅ | — | ✅ review |
-| Auth / security | ✅ | ✅ | ✅ review |
-| Design system | — | ✅ | — |
-| Bug fix | ✅ or ✅ | ✅ or ✅ | ✅ verify |
-| Performance | ✅ or ✅ | ✅ or ✅ | ✅ verify |
-
----
-
-## Multi-Project Workflow
-
-### Project A and Project B — completely isolated
-
-```
-~/projects/
-├── project-a/                 ← ARIA for project A (separate memory)
-│   ├── CLAUDE.md
-│   ├── agents/orchestrator/memories/MEMORY.md   ← project A context only
-│   ├── _shared/task-log.jsonl                   ← project A tasks only
-│   └── projects/project-a-repo/
-│
-└── project-b/                 ← ARIA for project B (separate memory)
-    ├── CLAUDE.md
-    ├── agents/orchestrator/memories/MEMORY.md   ← project B context only
-    ├── _shared/task-log.jsonl                   ← project B tasks only
-    └── projects/project-b-repo/
-```
-
-**Each project has its own:**
-- ARIA memory (no cross-contamination)
-- Task log and messages
-- Agent memories (Kai/Nova/Sage)
-- Architecture decisions
-
-**To switch projects:** Just open a different folder in VS Code. `/session-start` loads that project's context automatically.
-
-### Init project B while working on A
-
-```powershell
-# From anywhere — doesn't affect project A
-.\scripts\init-project.ps1 -ProjectName "project-b" -RepoUrl "https://github.com/user/project-b.git"
-```
-
----
-
-## Memory System
-
-Each agent has persistent memory that survives across sessions.
-
-### Memory types
-
-| Type | What it stores | Where |
-|------|---------------|-------|
-| **user** | Your preferences, expertise, working style | `agents/*/memories/` |
-| **feedback** | What worked / what to avoid (with why) | `agents/*/memories/` |
-| **project** | Goals, decisions, blockers, deadlines | `agents/*/memories/` |
-| **reference** | External links, dashboards, repos | `agents/*/memories/` |
-
-### Memory index format
-
-Every `MEMORY.md` is under 200 lines. One entry per memory file:
-
-```markdown
-- [memory-name](memory-file.md) — one-line hook describing what's in it
-```
-
-### What NOT to save
-
-- Code patterns (read the code)
-- Git history (use `git log`)
-- Debug recipes (fix is in the code)
-- Current session's task details (use task-log.jsonl)
-
----
-
-## Session State: `_shared/`
-
-### `task-log.jsonl`
-
-One JSON per line. Tracks all active tasks:
-
-```json
-{
-  "taskId": "TASK-001",
-  "title": "Implement user authentication",
-  "assignedTo": "kai-backend",
-  "status": "in_progress",
-  "handoffFrom": "aria-orchestrator",
-  "startedAt": "2026-06-03T10:00:00Z",
-  "expectedOutput": "POST /auth/login + POST /auth/refresh + tests"
-}
-```
-
-Status values: `pending` | `in_progress` | `blocked` | `complete` | `failed`
-
-### `messages.jsonl`
-
-Inter-agent communication log:
-
-```json
-{
-  "messageId": "msg-001",
-  "type": "handoff",
-  "from": "aria-orchestrator",
-  "to": "kai-backend",
-  "timestamp": "2026-06-03T10:00:00Z",
-  "subject": "Implement JWT auth",
-  "taskId": "TASK-001",
-  "requiresResponse": true
-}
-```
-
-Message types: `handoff` | `proposal` | `question` | `approval` | `request_changes` | `status`
-
-### `decisions/`
-
-Architecture Decision Records (ADR) for important choices:
-
-```
-decisions/
-├── adr-001-auth-strategy.md
-└── adr-002-db-schema.md
-```
-
----
-
-## UI/UX Pro Max (Nova's Toolkit)
-
-Nova has access to a design intelligence database. Search it before building any UI:
-
-```bash
-# ค้นหา UI style
-python3 .claude/skills/ui-ux-pro-max/scripts/search.py "glassmorphism dashboard" --domain style
-
-# ค้นหา color palette
-python3 .claude/skills/ui-ux-pro-max/scripts/search.py "SaaS product" --domain color
-
-# ค้นหา typography
-python3 .claude/skills/ui-ux-pro-max/scripts/search.py "modern sans serif" --domain typography
-
-# ค้นหาตาม stack
-python3 .claude/skills/ui-ux-pro-max/scripts/search.py "hero section" --stack nextjs
-
-# Domains: product | style | typography | color | landing | chart | ux
-# Stacks: react | nextjs | vue | nuxtjs | svelte | shadcn | html-tailwind
-```
-
----
-
-## Quality Gates
-
-Sage enforces these before any task is marked complete:
-
-| Gate | Requirement |
-|------|------------|
-| Unit tests | ≥ 80% coverage on changed files |
-| Integration tests | All API contracts verified |
-| Security | Zero OWASP Top 10 violations |
-| Accessibility | WCAG 2.1 AA (FE work) |
-| Performance | No regression vs baseline |
-| E2E | Golden path + 3 error paths pass |
-
----
-
-## Updating the Template
-
-When a new version of `sahagan_agent_template` is released:
-
-```bash
-# In your existing project — pull template updates manually for specific files
-# (Don't overwrite your agent memories!)
-
-# Or re-init for new projects (new projects always get the latest)
-bash scripts/init-project.sh new-project https://github.com/user/repo.git
-```
-
----
-
-## Template Source
-
-**GitHub:** https://github.com/Sahagan/sahagan_agent_template  
-**Base template:** https://github.com/kla-ondemand/atlas-agent-oracle-template (forked, heavily extended)  
-**UI/UX skill:** https://github.com/nextlevelbuilder/ui-ux-pro-max-skill (integrated)
+| Command | ทำอะไร |
+|---------|--------|
+| `/session-start` | เริ่ม session, อั่งเปาโหลด context และ memory |
+| `/session-end` | ปิด session, บันทึก lessons, improve template |
+| `/initproject <name>` | สร้าง workspace + template ใหม่ |

@@ -1,0 +1,20 @@
+{
+  "name": "agents-workflow",
+  "version": "1.0.0",
+  "description": "Multi-agent workflow template — อั่งเปา (Orchestrator), พายุ (Dev Lead), ใต้ฝุ่น (QA Lead), ติ่มซำ (UX/UI Designer)",
+  "keywords": ["claude", "agents", "workflow", "template", "multi-agent"],
+  "bin": {
+    "agents-workflow": "./scripts/cli.js",
+    "aw": "./scripts/cli.js"
+  },
+  "scripts": {
+    "init": "node scripts/cli.js init"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sahagan/sahagan_agent_template.git"
+  }
+}
