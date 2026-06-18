@@ -93,7 +93,7 @@ const MSGS = {
     skillSetup:    '🎨 UI/UX Pro Max Skill (Timsum)...',
     skillDone:     '✅ UI/UX Pro Max installed',
     skillFail:     '⚠️  UI/UX Pro Max failed (skipped)',
-    addySetup:     '⚙️  Planning & Review Skills (Angpao + Taitoon)...',
+    addySetup:     '⚙️  Planning & Review Skills (Angpao + Taifoon)...',
     addyDone:      '✅ Planning, Code Review & Security installed',
     addyFail:      '⚠️  Planning & Review Skills failed (skipped)',
     ponytailSetup: '🐴 Ponytail Skill (Phayu)...',
@@ -102,7 +102,7 @@ const MSGS = {
     creatingFiles: '📝 Creating project files...',
     wsFile:        '🗂️  Creating VS Code Workspace file...',
     wsFileDone:    '✅ Workspace file created',
-    teamReady:     '🐱 Team: Angpao, Phayu, Taitoon, Timsum are ready',
+    teamReady:     '🐱 Team: Angpao, Phayu, Taifoon, Timsum are ready',
     howToUse:      '💡 How to use:',
     step1:         f => `   1. Open ${f} in VS Code`,
     step2: {
@@ -121,7 +121,7 @@ const MSGS = {
     upgradeCommit:      '🔗 Committing changes...',
     upgradeUpdated:     '\n✅ What was updated:',
     upgradeKept:        '🔒 What was preserved (user data):',
-    projectMd: (n, now) => `# ${n}\n\n## Project Info\n- Name: ${n}\n- Created: ${now}\n- Workspace: workspace-${n}/\n- Template: agents-workflow\n\n## Tech Stack\n<!-- TODO: specify tech stack for this project -->\n\n## Team\n- Orchestrator: Angpao (อั่งเปา)\n- Dev Lead: Phayu (พายุ)\n- QA Lead: Taitoon (ใต้ฝุ่น)\n- UX/UI: Timsum (ติ่มซำ)\n`,
+    projectMd: (n, now) => `# ${n}\n\n## Project Info\n- Name: ${n}\n- Created: ${now}\n- Workspace: workspace-${n}/\n- Template: agents-workflow\n\n## Tech Stack\n<!-- TODO: specify tech stack for this project -->\n\n## Team\n- Orchestrator: Angpao (อั่งเปา)\n- Dev Lead: Phayu (พายุ)\n- QA Lead: Taifoon (ใต้ฝุ่น)\n- UX/UI: Timsum (ติ่มซำ)\n`,
     memoryMd: n => `# Memory Index — ${n}\n\n_No memories yet — Angpao will record during sessions_\n`,
   },
 }
@@ -433,8 +433,8 @@ function showHelp() {
   console.log('  Agent           Skill                        Source')
   console.log('  ─────────────  ───────────────────────────  ──────────────────────────')
   console.log('  Angpao         planning-and-task-breakdown   addyosmani/agent-skills ⭐62k')
-  console.log('  Taitoon (QA)   code-review-and-quality       addyosmani/agent-skills ⭐62k')
-  console.log('  Taitoon (QA)   security-and-hardening        addyosmani/agent-skills ⭐62k')
+  console.log('  Taifoon (QA)   code-review-and-quality       addyosmani/agent-skills ⭐62k')
+  console.log('  Taifoon (QA)   security-and-hardening        addyosmani/agent-skills ⭐62k')
   console.log('  Phayu (Dev)    ponytail (+ review/audit)     DietrichGebert/ponytail ⭐36k')
   console.log('  Timsum (UX)    ui-ux-pro-max                 nextlevelbuilder        ')
   console.log('')

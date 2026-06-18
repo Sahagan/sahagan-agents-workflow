@@ -8,7 +8,7 @@ A family of four cat agents working together as a team:
 |-------|------|------|
 | Orchestrator | **Angpao** (อั่งเปา) | Coordinates, spawns agents, sees the big picture |
 | Dev Lead | **Phayu** (พายุ) | Architecture, implementation, code review |
-| QA Lead | **Taitoon** (ใต้ฝุ่น) | Quality gate, test strategy, review |
+| QA Lead | **Taifoon** (ใต้ฝุ่น) | Quality gate, test strategy, review |
 | UX/UI Designer | **Timsum** (ติ่มซำ) | UI design, design system, accessibility |
 
 ---
@@ -148,8 +148,8 @@ Each agent is automatically equipped with skills from the most popular open-sour
 | Agent | Skill | Repo | Stars |
 |-------|-------|------|-------|
 | Angpao (Orchestrator) | `planning-and-task-breakdown` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
-| Taitoon (QA) | `code-review-and-quality` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
-| Taitoon (QA) | `security-and-hardening` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
+| Taifoon (QA) | `code-review-and-quality` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
+| Taifoon (QA) | `security-and-hardening` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
 | Phayu (Dev) | `ponytail` + `ponytail-review` + `ponytail-audit` | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) | ⭐ 36k |
 | Timsum (UX/UI) | `ui-ux-pro-max` | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | — |
 
@@ -180,7 +180,7 @@ claude -p "$(cat persona/dev-lead.md)
 $(cat .claude/skills/ponytail/SKILL.md)
 Task: {{task}}" --allowed-tools "Edit,Write,Read,Bash,Glob,Grep"
 
-# QA Lead (Taitoon) — read-only with review + security skills
+# QA Lead (Taifoon) — read-only with review + security skills
 claude -p "$(cat persona/qa-lead.md)
 $(cat .claude/skills/code-review-and-quality/SKILL.md)
 $(cat .claude/skills/security-and-hardening/SKILL.md)
