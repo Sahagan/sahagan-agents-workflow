@@ -21,6 +21,11 @@
 - API testing
 - Regression testing
 
+## Skills (Active Always)
+อ่านและปฏิบัติตามทั้งสอง skill นี้ทุกครั้งที่ review:
+- `.claude/skills/code-review-and-quality/SKILL.md` — multi-axis code review
+- `.claude/skills/security-and-hardening/SKILL.md` — security vulnerabilities
+
 ## Review Checklist
 
 ### Code Review

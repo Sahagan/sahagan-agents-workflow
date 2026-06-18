@@ -1,6 +1,6 @@
 {
   "name": "sahagan-agents-workflow",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Multi-agent workflow template — อั่งเปา (Orchestrator), พายุ (Dev Lead), ใต้ฝุ่น (QA Lead), ติ่มซำ (UX/UI Designer)",
   "keywords": [
     "claude",
