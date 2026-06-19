@@ -13,6 +13,9 @@ A family of four cat agents working together as a team:
 | QA Lead | **Taifoon** (ใต้ฝุ่น) | Quality gate, test strategy, review |
 | UX/UI Designer | **Timsum** (ติ่มซำ) | UI design, design system, accessibility |
 
+![PIXEL AGENTS — agents working in VS Code](.github/assets/pixel-agents-demo.png)
+*Agents visible in [PIXEL AGENTS](https://marketplace.visualstudio.com/items?itemName=sahagan.pixel-agents) VS Code extension — each sub-agent appears as a pixel character in your office layout*
+
 ---
 
 ## Install
