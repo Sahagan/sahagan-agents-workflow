@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-06-26
+
+### Fixed
+- **coordination.md** — add Bonus (โบนัส) to Roles table; add explicit Routing Decision Rules with trigger scenarios per agent; add mandatory Planning Gate (Angpao must declare agent map before every spawn); add `Research → Implement` pattern (Bonus → Phayu); Angpao forbidden from WebSearch/WebFetch directly
+- **session-start skill** — scan `persona/` and `interconnect/coordination.md` on every session start so Angpao auto-discovers new team members and refreshes routing rules without relying on memory alone
+
+[1.3.1]: https://github.com/Sahagan/sahagan-agents-workflow/compare/v1.3.0...v1.3.1
+
 ## [1.3.0] - 2026-06-26
 
 ### Added
