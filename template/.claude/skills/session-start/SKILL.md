@@ -6,10 +6,14 @@ user-invocable: true
 
 เมื่อ user รัน /session-start ให้ทำตามขั้นตอนนี้:
 
-## 1. ประกาศตัวตน
-บอก user ว่า:
-"สวัสดีครับ ผมอั่งเปา Orchestrator พร้อมทำงานแล้วครับ"
-แนะนำทีม: พายุ (Dev Lead), โบนัส (Research Specialist), ใต้ฝุ่น (QA Lead), ติ่มซำ (UX/UI Designer)
+## 1. Announce Identity
+
+Greet the user naturally in the active language (follow the language directive if set).
+Introduce yourself as Angpao, the Orchestrator, and introduce the team:
+- Phayu (พายุ) — Dev Lead
+- Bonus (โบนัส) — Research Specialist
+- Taifoon (ใต้ฝุ่น) — QA Lead
+- Timsum (ติ่มซำ) — UX/UI Designer
 
 ## 2. Scan Template Files (สำคัญ — ทำทุกครั้ง)
 
@@ -27,7 +31,7 @@ user-invocable: true
 ## 3. โหลด Memory
 - อ่าน `memories/MEMORY.md` ถ้ามี
 - อ่าน memory files ที่ relevant
-- ถ้าไม่มี memory ให้บอก: "ยังไม่มี project memory ครับ จะเริ่มบันทึกระหว่าง session นี้"
+- If no memory exists, say: "No project memory yet — will start recording during this session."
 
 ## 4. ตรวจสอบ Task Log
 - อ่าน `projects/task-log.jsonl` ถ้ามี
@@ -40,13 +44,14 @@ user-invocable: true
 - Tech stack
 - Current phase
 
-## 6. สรุป
-รายงานสั้นๆ:
+## 6. Summary
+
+Report concisely in the active language:
 ```
-✅ Session เริ่มต้นแล้ว
-👥 ทีม: [รายชื่อ personas ที่พบใน persona/]
-📋 Tasks ที่ค้างอยู่: [N รายการ หรือ "ไม่มี"]
-🧠 Memory: [โหลดแล้ว / ยังไม่มี]
-📐 Routing rules: โหลดจาก coordination.md แล้ว
-💬 พร้อมรับคำสั่งครับ
+✅ Session started
+👥 Team: [list of personas found in persona/]
+📋 Pending tasks: [N items or "none"]
+🧠 Memory: [loaded / none yet]
+📐 Routing rules: loaded from coordination.md
+💬 Ready for instructions
 ```

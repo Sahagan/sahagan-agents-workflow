@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2026-06-26
+
+### Fixed
+- **Full English support** — English-speaking users can now use the workflow without friction
+- `applyLanguageDirective()` now covers `interconnect/coordination.md` + all 3 bundled skills (`session-start`, `session-end`, `initproject`) so English directive propagates to routing rules and session protocols
+- Default language changed to **English** (press Enter or 2); Thai requires explicit `[1]`; `langPrompt` updated to show `English (default — press Enter)`
+- `session-start` skill: greeting is now language-neutral (no hardcoded Thai); summary template in English; memory-absent message in English
+- `session-end` skill: session summary template headings in English; closing message language-neutral
+- `initproject` skill: PROJECT.md team section bilingual (English + Thai); report output in English; tech stack TODO comment in English
+
+[1.3.2]: https://github.com/Sahagan/sahagan-agents-workflow/compare/v1.3.1...v1.3.2
+
 ## [1.3.1] - 2026-06-26
 
 ### Fixed

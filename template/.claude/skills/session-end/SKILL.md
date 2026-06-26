@@ -48,26 +48,28 @@ user-invocable: true
 → เพิ่ม note ใน interconnect/coordination.md
 ```
 
-## 4. สรุป Session
+## 4. Session Summary
 
+Write summary in the active language:
 ```
 ## Session Summary — {{date}}
 
-### งานที่เสร็จ ✅
+### Completed ✅
 - [task 1]
 
-### งานที่ค้าง 🔄
+### In Progress / Blocked 🔄
 - [task N]: [blocker]
 
 ### Template Improvements 📈
-- [สิ่งที่ improve ใน session นี้]
+- [improvements made this session]
 
 ### Next Session
-- [สิ่งที่ต้องทำต่อ]
+- [what to continue next]
 ```
 
-## 5. ปิด Session
+## 5. Close Session
 
-"บันทึกและ improve template เรียบร้อยแล้วครับ
-Template ในเครื่องดีขึ้นจาก session นี้
-พบกัน session หน้าครับ 🐱"
+Confirm completion naturally in the active language. Mention:
+- Memory and task log have been saved
+- Template has been improved from this session's learnings
+- Sign off warmly 🐱

@@ -24,7 +24,7 @@ const command = args[0]
 
 const MSGS = {
   th: {
-    langPrompt:    '🌐 เลือกภาษา / Choose language:\n  [1] ภาษาไทย (Thai)\n  [2] English\n> ',
+    langPrompt:    '🌐 เลือกภาษา / Choose language:\n  [1] ภาษาไทย (Thai)\n  [2] English (default — press Enter)\n> ',
     toolPrompt:    '\n🤖 เลือก AI tool:\n  [1] Claude Code (Anthropic) — ค่าเริ่มต้น\n  [2] Codex (OpenAI)\n  [3] ทั้งคู่ (Claude Code + Codex)\n> ',
     toolClaude:    'Claude Code',
     toolCodex:     'Codex',
@@ -75,7 +75,7 @@ const MSGS = {
   },
 
   en: {
-    langPrompt:    '🌐 เลือกภาษา / Choose language:\n  [1] ภาษาไทย (Thai)\n  [2] English\n> ',
+    langPrompt:    '🌐 เลือกภาษา / Choose language:\n  [1] ภาษาไทย (Thai)\n  [2] English (default — press Enter)\n> ',
     toolPrompt:    '\n🤖 Choose AI tool:\n  [1] Claude Code (Anthropic) — default\n  [2] Codex (OpenAI)\n  [3] Both (Claude Code + Codex)\n> ',
     toolClaude:    'Claude Code',
     toolCodex:     'Codex',
@@ -163,7 +163,7 @@ function applyLanguageDirective(dir, lang) {
     '> **Response Language: English** — Always respond to the user in English, ' +
     'regardless of the language used in these instruction files.\n\n'
 
-  for (const file of ['CLAUDE.md', 'AGENTS.md', 'persona/orchestrator.md', 'persona/dev-lead.md', 'persona/qa-lead.md', 'persona/uxui-designer.md', 'persona/researcher.md']) {
+  for (const file of ['CLAUDE.md', 'AGENTS.md', 'persona/orchestrator.md', 'persona/dev-lead.md', 'persona/qa-lead.md', 'persona/uxui-designer.md', 'persona/researcher.md', 'interconnect/coordination.md', '.claude/skills/session-start/SKILL.md', '.claude/skills/session-end/SKILL.md', '.claude/skills/initproject/SKILL.md']) {
     const p = join(dir, file)
     if (!existsSync(p)) continue
     writeFileSync(p, directive + readFileSync(p, 'utf8'), 'utf8')
@@ -220,7 +220,7 @@ function installSkills(workflowDir, m) {
 async function initProject(projectName, parentDir = '.') {
   // 1. Language
   const rawLang = await ask(MSGS.th.langPrompt)
-  const lang = rawLang.trim() === '2' ? 'en' : 'th'
+  const lang = rawLang.trim() === '1' ? 'th' : 'en'
   const m = MSGS[lang]
 
   if (!projectName) {
@@ -322,7 +322,7 @@ async function upgradeWorkflow(targetPath = '.') {
 
   // 1. Language
   const rawLang = await ask(MSGS.th.langPrompt)
-  const lang = rawLang.trim() === '2' ? 'en' : 'th'
+  const lang = rawLang.trim() === '1' ? 'th' : 'en'
   const m = MSGS[lang]
 
   // 2. Detect agents-workflow directory
