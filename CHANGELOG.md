@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-07-04
+
+### Fixed
+- **CLI upgrade messaging** — `aw init` and `aw upgrade` now describe the package's bundled template version instead of implying the process always applies the latest npm template.
+- **Self-update flow** — when `aw upgrade` installs a newer global package, it now stops and asks users to rerun the same upgrade command so the newly installed package can apply its own bundled template.
+- **Smart-diff documentation** — README/help text now matches the current backup and preserved user-data behavior, including `interconnect/` being template-managed.
+
+[1.4.1]: https://github.com/Sahagan/sahagan-agents-workflow/compare/v1.4.0...v1.4.1
+
 ## [1.4.0] - 2026-07-04
 
 ### Added

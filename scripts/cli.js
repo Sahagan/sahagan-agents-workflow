@@ -145,6 +145,10 @@ function getLatestNpmVersion(pkg) {
   } catch { return null }
 }
 
+function quoteCliDisplayArg(value) {
+  return `"${String(value).replace(/"/g, '\\"')}"`
+}
+
 // User-created data that upgrade must never overwrite
 const USER_DATA_PREFIXES = ['memories', 'projects', '.upgrade-backup']
 const USER_DATA_FILES    = ['PROJECT.md', 'context/session-state.json']
@@ -314,9 +318,16 @@ async function upgradeWorkflow(targetPath = '.') {
   const latestVer  = getLatestNpmVersion('sahagan-agents-workflow')
   if (latestVer && currentVer && latestVer !== currentVer) {
     console.log(`📦 New version available: v${currentVer} → v${latestVer}`)
-    console.log('🔄 Updating sahagan-agents-workflow...')
-    run('npm install -g sahagan-agents-workflow@latest', '.', false)
-    console.log('✅ Package updated to v' + latestVer)
+    console.log('🔄 Updating sahagan-agents-workflow globally...')
+    if (run('npm install -g sahagan-agents-workflow@latest', '.', false)) {
+      console.log('✅ Package updated to v' + latestVer)
+      const rerunHint = targetPath === '.'
+        ? '`aw upgrade`'
+        : `the same \`aw upgrade ${quoteCliDisplayArg(targetPath)}\` command`
+      console.log(`➡️  Run ${rerunHint} again to apply the newly installed package template.`)
+      return
+    }
+    console.log(`⚠️  Self-update failed; continuing with the currently running v${currentVer} bundled template.`)
   } else if (latestVer) {
     console.log(`✅ Already on latest version (${latestVer})`)
   }
@@ -346,7 +357,7 @@ async function upgradeWorkflow(targetPath = '.') {
   const label = toolLabel(m, tool)
 
   // 4. Diff template vs installed — detect every changed/new file automatically
-  console.log('\n📊 Scanning template for changes...')
+  console.log(`\n📊 Scanning bundled template${currentVer ? ` from v${currentVer}` : ''} for changes...`)
   const templateFiles = collectTemplateFiles(TEMPLATE_SRC)
   const toUpdate = []
 
@@ -413,7 +424,7 @@ async function upgradeWorkflow(targetPath = '.') {
   // 10. Git commit
   console.log('\n' + m.upgradeCommit)
   run('git add .', workflowDir, true)
-  run('git commit -m "upgrade: agents-workflow updated to latest template"', workflowDir, true)
+  run(`git commit -m "upgrade: agents-workflow updated to bundled template${currentVer ? ` v${currentVer}` : ''}"`, workflowDir, true)
 
   // 11. Done
   console.log('\n╔════════════════════════════════════════════════╗')
@@ -440,6 +451,8 @@ async function upgradeWorkflow(targetPath = '.') {
 // ─── help ─────────────────────────────────────────────────────────────────────
 
 function showHelp() {
+  const version = getSelfVersion()
+  const versionLabel = version ? ` v${version}` : ''
   const line = '─'.repeat(60)
   console.log('')
   console.log('  agents-workflow CLI 🐱')
@@ -452,7 +465,7 @@ function showHelp() {
   console.log('  aw init <project-name> [parent-dir]')
   console.log('    Create a new agents-workflow workspace.')
   console.log('    Prompts for language and AI tool, then:')
-  console.log('      • Copies bundled template (no internet needed)')
+  console.log(`      • Copies this package's bundled template${versionLabel} (no internet needed)`)
   console.log('      • Installs CLAUDE.md and/or AGENTS.md based on tool choice')
   console.log('      • Applies language directive to all instruction files')
   console.log('      • Installs all agent skills from GitHub')
@@ -460,14 +473,15 @@ function showHelp() {
   console.log('      • Initializes a local git repo')
   console.log('')
   console.log('  aw upgrade [agents-workflow-path]')
-  console.log('    Upgrade an existing workspace to the latest template version.')
+  console.log(`    Upgrade an existing workspace with this package's bundled template${versionLabel}.`)
   console.log('    Prompts for language and AI tool, then:')
-  console.log('      • Checks npm for newer version and self-updates if available')
-  console.log('      • Backs up current persona/, CLAUDE.md, AGENTS.md')
-  console.log('      • Overwrites template files with latest bundled version')
+  console.log('      • Checks npm for a newer package version; if installed, rerun upgrade')
+  console.log('      • Smart-diffs bundled template files against the workspace')
+  console.log('      • Backs up only changed existing files before overwriting')
+  console.log('      • Adds new bundled template files when missing')
   console.log('      • Re-installs all skills to their latest versions')
   console.log('      • Commits the upgrade with a descriptive message')
-  console.log('    Preserves: memories/, projects/, PROJECT.md, interconnect/')
+  console.log('    Preserves user data: memories/, projects/, PROJECT.md, context/session-state.json')
   console.log('    Path defaults to ./agents-workflow if not specified.')
   console.log('')
   console.log('  aw help')

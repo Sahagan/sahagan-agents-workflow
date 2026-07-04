@@ -68,7 +68,7 @@ workspace-my-app/
 
 ### `aw upgrade [agents-workflow-path]`
 
-Upgrade an existing workspace to the latest template version.
+Upgrade an existing workspace with the template bundled in the currently installed package.
 
 ```bash
 aw upgrade                              # run from inside agents-workflow/
@@ -76,18 +76,17 @@ aw upgrade D:\working\workspace-my-app  # or pass path to workspace
 ```
 
 **What it does:**
-- **Checks npm for a newer package version and self-updates if available**
-- Backs up current `persona/`, `CLAUDE.md`, `AGENTS.md`
-- Overwrites template files with the latest bundled version
-- Copies `context/` templates and `mcp-researcher.json.example`
+- **Checks npm for a newer package version; if it installs one, rerun `aw upgrade`**
+- Smart-diffs bundled template files against the workspace
+- Backs up only changed existing files before overwriting them
+- Adds missing bundled template files
 - Re-installs all skills to their latest versions
 - Commits the upgrade with a descriptive message
 
 | Item | Action |
 |------|--------|
-| `persona/*.md` | ✅ Overwritten with latest |
-| `CLAUDE.md` / `AGENTS.md` | ✅ Overwritten with latest |
-| `context/` | ✅ Updated with latest templates |
+| Bundled template files | ✅ Added or updated when different |
+| Changed existing files | 💾 Backed up before overwrite |
 | All skills | ✅ Re-installed from GitHub (latest) |
 
 **What it preserves (user data):**
@@ -97,9 +96,9 @@ aw upgrade D:\working\workspace-my-app  # or pass path to workspace
 | `memories/` | 🔒 Never touched |
 | `projects/task-log.jsonl` | 🔒 Never touched |
 | `PROJECT.md` | 🔒 Never touched |
-| `interconnect/` | 🔒 Never touched |
+| `context/session-state.json` | 🔒 Never touched |
 
-A backup of overwritten files is saved to `.upgrade-backup-{timestamp}/` before any changes are made.
+Template-managed files, including files under `interconnect/`, may be updated when the bundled template differs. A backup of changed existing files is saved to `.upgrade-backup-{timestamp}/` before they are overwritten.
 
 ---
 
