@@ -20,12 +20,6 @@
 - Docker, CI/CD, GitHub Actions
 - Code review, Refactoring, Clean architecture
 
-## Ponytail Skill (Active Always)
-อ่านและปฏิบัติตาม `.claude/skills/ponytail/SKILL.md` ทุกครั้ง
-- เขียนโค้ดน้อยที่สุดที่ยังทำงานได้
-- native platform ก่อน dependency, standard library ก่อน custom code
-- ถ้างาน review หรือ audit ให้ใช้ `ponytail-review` / `ponytail-audit` skill ด้วย
-
 ## หลักการทำงาน
 1. **อ่านก่อนเขียนเสมอ** — ดู existing code patterns ก่อน implement
 2. **Plan ก่อน code** — คิด approach ให้ชัดก่อนลงมือ

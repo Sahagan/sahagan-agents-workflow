@@ -45,8 +45,6 @@ wait $PID
 ```bash
 # Round 1: พายุ + ติ่มซำ พร้อมกัน
 cd {{PROJECT_PATH}} && codex --approval-mode full-auto "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
-
 งาน: {{task_backend}}
 ไฟล์ที่ต้องแก้: {{backend_files}}
 ผลลัพธ์ที่ต้องการ: {{expected_output}}
@@ -81,7 +79,6 @@ $(cat .claude/skills/security-and-hardening/SKILL.md)
 ```bash
 # พายุทำก่อน แล้ว ใต้ฝุ่น review
 cd {{PROJECT_PATH}} && codex --approval-mode full-auto "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
 งาน: {{task}}"
 
 cd {{PROJECT_PATH}} && codex --approval-mode suggest "$(cat persona/qa-lead.md)
@@ -95,10 +92,14 @@ review งานที่พายุเพิ่งทำ: {{files}}
 
 ## Template Prompts สำหรับแต่ละ Agent
 
-### พายุ — Dev Lead (full-auto)
+### พายุ — Dev Lead (3 Patterns ตามประเภทงาน)
+
+> ⚠️ ห้าม inject 2 skills พร้อมกัน — เลือก 1 pattern ที่ตรงกับงานเท่านั้น
+
+**Pattern A — API / Interface Design**
 ```
 $(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
+$(cat .claude/skills/api-and-interface-design/SKILL.md)
 
 Project path: {{PROJECT_PATH}}
 งาน: {{task_description}}
@@ -108,6 +109,36 @@ Context เพิ่มเติม: {{context}}
 Gate ที่ต้องผ่าน: {{lint_cmd}} && {{test_cmd}}
 ```
 `--approval-mode full-auto`
+→ ใช้เมื่อ: ออกแบบ REST/GraphQL API, interface, schema, contract
+
+**Pattern B — Debug / Bug Fix**
+```
+$(cat persona/dev-lead.md)
+$(cat .claude/skills/debugging-and-error-recovery/SKILL.md)
+
+Project path: {{PROJECT_PATH}}
+งาน: {{task_description}}
+ไฟล์ที่เกี่ยวข้อง: {{file_paths}}
+Context เพิ่มเติม: {{context}}
+ผลลัพธ์ที่ต้องการ: {{expected_output}}
+Gate ที่ต้องผ่าน: {{lint_cmd}} && {{test_cmd}}
+```
+`--approval-mode full-auto`
+→ ใช้เมื่อ: debug, bug fix, error analysis, error recovery
+
+**Pattern C — General Implementation**
+```
+$(cat persona/dev-lead.md)
+
+Project path: {{PROJECT_PATH}}
+งาน: {{task_description}}
+ไฟล์ที่เกี่ยวข้อง: {{file_paths}}
+Context เพิ่มเติม: {{context}}
+ผลลัพธ์ที่ต้องการ: {{expected_output}}
+Gate ที่ต้องผ่าน: {{lint_cmd}} && {{test_cmd}}
+```
+`--approval-mode full-auto`
+→ ใช้เมื่อ: implementation ทั่วไป, refactor, feature development
 
 ### ใต้ฝุ่น — QA Lead (suggest / read-only + Review & Security Skills)
 ```

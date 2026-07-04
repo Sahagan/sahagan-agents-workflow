@@ -14,7 +14,6 @@ const os = require('os')
 
 const TEMPLATE_SRC          = join(__dirname, '..', 'template')
 const UXUI_SKILL_REPO       = 'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git'
-const PONYTAIL_SKILL_REPO   = 'https://github.com/DietrichGebert/ponytail.git'
 const ADDYOSMANI_SKILL_REPO = 'https://github.com/addyosmani/agent-skills.git'
 
 const args    = process.argv.slice(2)
@@ -42,12 +41,9 @@ const MSGS = {
     skillSetup:    '🎨 UI/UX Pro Max Skill (ติ่มซำ)...',
     skillDone:     '✅ UI/UX Pro Max ติดตั้งแล้ว',
     skillFail:     '⚠️  UI/UX Pro Max ไม่สำเร็จ (ข้ามไป)',
-    addySetup:     '⚙️  Planning & Review Skills (อั่งเปา + ใต้ฝุ่น)...',
-    addyDone:      '✅ Planning, Code Review & Security ติดตั้งแล้ว',
-    addyFail:      '⚠️  Planning & Review Skills ไม่สำเร็จ (ข้ามไป)',
-    ponytailSetup: '🐴 Ponytail Skill (พายุ)...',
-    ponytailDone:  '✅ Ponytail ติดตั้งแล้ว',
-    ponytailFail:  '⚠️  Ponytail ไม่สำเร็จ (ข้ามไป)',
+    addySetup:     '⚙️  Planning, Review & Dev Skills (อั่งเปา + ใต้ฝุ่น + พายุ)...',
+    addyDone:      '✅ Planning, Code Review, Security & Dev Skills ติดตั้งแล้ว',
+    addyFail:      '⚠️  Planning, Review & Dev Skills ไม่สำเร็จ (ข้ามไป)',
     creatingFiles: '📝 สร้าง project files...',
     wsFile:        '🗂️  สร้าง VS Code Workspace file...',
     wsFileDone:    '✅ Workspace file สร้างแล้ว',
@@ -93,12 +89,9 @@ const MSGS = {
     skillSetup:    '🎨 UI/UX Pro Max Skill (Timsum)...',
     skillDone:     '✅ UI/UX Pro Max installed',
     skillFail:     '⚠️  UI/UX Pro Max failed (skipped)',
-    addySetup:     '⚙️  Planning & Review Skills (Angpao + Taifoon)...',
-    addyDone:      '✅ Planning, Code Review & Security installed',
-    addyFail:      '⚠️  Planning & Review Skills failed (skipped)',
-    ponytailSetup: '🐴 Ponytail Skill (Phayu)...',
-    ponytailDone:  '✅ Ponytail installed',
-    ponytailFail:  '⚠️  Ponytail failed (skipped)',
+    addySetup:     '⚙️  Planning, Review & Dev Skills (Angpao + Taifoon + Phayu)...',
+    addyDone:      '✅ Planning, Code Review, Security & Dev Skills installed',
+    addyFail:      '⚠️  Planning, Review & Dev Skills failed (skipped)',
     creatingFiles: '📝 Creating project files...',
     wsFile:        '🗂️  Creating VS Code Workspace file...',
     wsFileDone:    '✅ Workspace file created',
@@ -211,7 +204,7 @@ function installSkills(workflowDir, m) {
   const tmpAddy = join(os.tmpdir(), `addy-${Date.now()}`)
   if (run(`git clone ${ADDYOSMANI_SKILL_REPO} "${tmpAddy}" --depth 1 --quiet`, '.', true)) {
     try {
-      for (const skill of ['planning-and-task-breakdown', 'code-review-and-quality', 'security-and-hardening']) {
+      for (const skill of ['planning-and-task-breakdown', 'code-review-and-quality', 'security-and-hardening', 'api-and-interface-design', 'debugging-and-error-recovery']) {
         const dst = join(skillsDir, skill)
         if (existsSync(dst)) rmSync(dst, { recursive: true, force: true })
         cpSync(join(tmpAddy, 'skills', skill), dst, { recursive: true })
@@ -221,19 +214,6 @@ function installSkills(workflowDir, m) {
     } catch { console.log(m.addyFail) }
   } else { console.log(m.addyFail) }
 
-  // Ponytail (พายุ)
-  console.log(m.ponytailSetup)
-  const tmpPony = join(os.tmpdir(), `ponytail-${Date.now()}`)
-  if (run(`git clone ${PONYTAIL_SKILL_REPO} "${tmpPony}" --depth 1 --quiet`, '.', true)) {
-    try {
-      for (const d of readdirSync(skillsDir).filter(x => x.startsWith('ponytail'))) {
-        rmSync(join(skillsDir, d), { recursive: true, force: true })
-      }
-      cpSync(join(tmpPony, 'skills'), skillsDir, { recursive: true })
-      rmSync(tmpPony, { recursive: true, force: true })
-      console.log(m.ponytailDone)
-    } catch { console.log(m.ponytailFail) }
-  } else { console.log(m.ponytailFail) }
 }
 
 // ─── init ─────────────────────────────────────────────────────────────────────
@@ -447,7 +427,7 @@ async function upgradeWorkflow(targetPath = '.') {
     console.log(m.upgradeUpdated)
     newFiles.forEach(({ relPath }) => console.log(`   + ${relPath}`))
     changedFiles.forEach(({ relPath }) => console.log(`   ~ ${relPath}`))
-    console.log('   ✅ skills (ponytail, ui-ux-pro-max, planning, code-review, security)')
+    console.log('   ✅ skills (api-and-interface-design, debugging-and-error-recovery, ui-ux-pro-max, planning, code-review, security)')
   }
   console.log(`\n${m.upgradeKept}`)
   console.log('   🔒 memories/')
@@ -511,11 +491,12 @@ function showHelp() {
   console.log(line)
   console.log('')
   console.log('  Agent           Skill                        Source')
-  console.log('  ─────────────  ───────────────────────────  ──────────────────────────')
+  console.log('  ─────────────  ────────────────────────────  ──────────────────────────')
   console.log('  Angpao         planning-and-task-breakdown   addyosmani/agent-skills ⭐62k')
   console.log('  Taifoon (QA)   code-review-and-quality       addyosmani/agent-skills ⭐62k')
   console.log('  Taifoon (QA)   security-and-hardening        addyosmani/agent-skills ⭐62k')
-  console.log('  Phayu (Dev)    ponytail (+ review/audit)     DietrichGebert/ponytail ⭐36k')
+  console.log('  Phayu (Dev)    api-and-interface-design      addyosmani/agent-skills ⭐62k')
+  console.log('  Phayu (Dev)    debugging-and-error-recovery  addyosmani/agent-skills ⭐62k')
   console.log('  Timsum (UX)    ui-ux-pro-max                 nextlevelbuilder        ⭐93k')
   console.log('  Bonus (Research)  planning-and-task-breakdown   addyosmani/agent-skills ⭐62k')
   console.log('')

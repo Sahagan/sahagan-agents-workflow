@@ -29,13 +29,11 @@
 ```bash
 # Foreground (sequential)
 cd {{PROJECT_PATH}} && claude -p "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
 งาน: {{task}}
 " --allowed-tools "Edit,Write,Read,Bash,Glob,Grep" 2>&1
 
 # Background (parallel)
 cd {{PROJECT_PATH}} && claude -p "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
 งาน: {{task}}
 " --allowed-tools "Edit,Write,Read,Bash,Glob,Grep" 2>&1 &
 PID=$!
@@ -53,7 +51,6 @@ git worktree add .worktrees/timsum-work -b timsum/feature-name
 
 # Spawn agents ใน worktrees แยก
 cd .worktrees/phayu-work && claude -p "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
 งาน: {{task_backend}}" --allowed-tools "Edit,Write,Read,Bash,Glob,Grep" 2>&1 &
 PHAYU_PID=$!
 
@@ -77,8 +74,6 @@ git worktree remove .worktrees/timsum-work
 ```bash
 # Round 1: พายุ + ติ่มซำ พร้อมกัน
 cd {{PROJECT_PATH}} && claude -p "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
-
 งาน: {{task_backend}}
 ไฟล์ที่ต้องแก้: {{backend_files}}
 ผลลัพธ์ที่ต้องการ: {{expected_output}}
@@ -116,7 +111,6 @@ $(cat .claude/skills/security-and-hardening/SKILL.md)
 ```bash
 # พายุทำก่อน แล้ว ใต้ฝุ่น review
 cd {{PROJECT_PATH}} && claude -p "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
 งาน: {{task}}
 " --allowed-tools "Edit,Write,Read,Bash,Glob,Grep" 2>&1
 
@@ -131,10 +125,14 @@ review งานที่พายุเพิ่งทำ: {{files}}
 
 ## Template Prompts สำหรับแต่ละ Agent
 
-### พายุ — Dev Lead (Full Access + Ponytail Skill)
+### พายุ — Dev Lead (3 Patterns ตามประเภทงาน)
+
+> ⚠️ ห้าม inject 2 skills พร้อมกัน — เลือก 1 pattern ที่ตรงกับงานเท่านั้น
+
+**Pattern A — API / Interface Design**
 ```
 $(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
+$(cat .claude/skills/api-and-interface-design/SKILL.md)
 
 Project path: {{PROJECT_PATH}}
 งาน: {{task_description}}
@@ -146,6 +144,40 @@ Gate ที่ต้องผ่าน: {{lint_cmd}} && {{test_cmd}}
 ปิดท้าย output ด้วย JSON summary block เสมอ
 ```
 `--allowed-tools "Edit,Write,Read,Bash,Glob,Grep"`
+→ ใช้เมื่อ: ออกแบบ REST/GraphQL API, interface, schema, contract
+
+**Pattern B — Debug / Bug Fix**
+```
+$(cat persona/dev-lead.md)
+$(cat .claude/skills/debugging-and-error-recovery/SKILL.md)
+
+Project path: {{PROJECT_PATH}}
+งาน: {{task_description}}
+ไฟล์ที่เกี่ยวข้อง: {{file_paths}}
+Context เพิ่มเติม: {{context}}
+Session context: $(cat context/session-state.json 2>/dev/null || echo '{}')
+ผลลัพธ์ที่ต้องการ: {{expected_output}}
+Gate ที่ต้องผ่าน: {{lint_cmd}} && {{test_cmd}}
+ปิดท้าย output ด้วย JSON summary block เสมอ
+```
+`--allowed-tools "Edit,Write,Read,Bash,Glob,Grep"`
+→ ใช้เมื่อ: debug, bug fix, error analysis, error recovery
+
+**Pattern C — General Implementation**
+```
+$(cat persona/dev-lead.md)
+
+Project path: {{PROJECT_PATH}}
+งาน: {{task_description}}
+ไฟล์ที่เกี่ยวข้อง: {{file_paths}}
+Context เพิ่มเติม: {{context}}
+Session context: $(cat context/session-state.json 2>/dev/null || echo '{}')
+ผลลัพธ์ที่ต้องการ: {{expected_output}}
+Gate ที่ต้องผ่าน: {{lint_cmd}} && {{test_cmd}}
+ปิดท้าย output ด้วย JSON summary block เสมอ
+```
+`--allowed-tools "Edit,Write,Read,Bash,Glob,Grep"`
+→ ใช้เมื่อ: implementation ทั่วไป, refactor, feature development
 
 ### ใต้ฝุ่น — QA Lead (Read Only + Review & Security Skills)
 ```

@@ -86,7 +86,6 @@ $(cat .claude/skills/planning-and-task-breakdown/SKILL.md)
 
 # พายุ implement โดยใช้ research report
 cd $PROJECT_PATH && claude -p "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
 Context จาก research: $(cat research/$TOPIC.md)
 งาน: $IMPL_TASK
 " --allowed-tools "Edit,Write,Read,Bash,Glob,Grep" 2>&1

@@ -189,7 +189,6 @@ Angpao orchestrates agents using the patterns below. All examples assume you're 
 ```bash
 # Step 1: Phayu implements
 claude -p "$(cat persona/dev-lead.md)
-$(cat .claude/skills/ponytail/SKILL.md)
 Task: implement user auth" \
   --allowed-tools "Edit,Write,Read,Bash,Glob,Grep"
 
@@ -199,6 +198,33 @@ $(cat .claude/skills/code-review-and-quality/SKILL.md)
 $(cat .claude/skills/security-and-hardening/SKILL.md)
 Review: src/auth/" \
   --allowed-tools "Read,Bash,Glob,Grep"
+```
+
+### Phayu — Spawn Patterns (3 Modes)
+
+Select the pattern that matches the task — never inject both skills simultaneously.
+
+**Pattern A — API / Interface Design**
+```bash
+claude -p "$(cat persona/dev-lead.md)
+$(cat .claude/skills/api-and-interface-design/SKILL.md)
+Task: design REST endpoints for user management" \
+  --allowed-tools "Edit,Write,Read,Bash,Glob,Grep"
+```
+
+**Pattern B — Debug / Bug Fix**
+```bash
+claude -p "$(cat persona/dev-lead.md)
+$(cat .claude/skills/debugging-and-error-recovery/SKILL.md)
+Task: debug JWT refresh token expiry issue" \
+  --allowed-tools "Edit,Write,Read,Bash,Glob,Grep"
+```
+
+**Pattern C — General Implementation**
+```bash
+claude -p "$(cat persona/dev-lead.md)
+Task: refactor auth module" \
+  --allowed-tools "Edit,Write,Read,Bash,Glob,Grep"
 ```
 
 ### Basic Parallel (Phayu + Timsum)
@@ -334,7 +360,8 @@ Each agent is automatically equipped with skills from the most popular open-sour
 | Angpao (Orchestrator) | `planning-and-task-breakdown` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
 | Taifoon (QA) | `code-review-and-quality` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
 | Taifoon (QA) | `security-and-hardening` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
-| Phayu (Dev) | `ponytail` + `ponytail-review` + `ponytail-audit` | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) | ⭐ 36k |
+| Phayu (Dev) | `api-and-interface-design` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
+| Phayu (Dev) | `debugging-and-error-recovery` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
 | Timsum (UX/UI) | `ui-ux-pro-max` | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | ⭐ 93k |
 | Bonus (Research) | `planning-and-task-breakdown` | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | ⭐ 62k |
 
@@ -365,7 +392,7 @@ workspace-my-app/
     ├── PROJECT.md                   ← project info & tech stack
     ├── persona/
     │   ├── orchestrator.md
-    │   ├── dev-lead.md              ← includes Ponytail skill reference
+    │   ├── dev-lead.md              ← API design & debugging skill patterns
     │   ├── qa-lead.md               ← includes Review & Security skill references
     │   ├── uxui-designer.md
     │   └── researcher.md            ← Bonus: web research + structured reports
@@ -377,10 +404,8 @@ workspace-my-app/
     │       ├── planning-and-task-breakdown/
     │       ├── code-review-and-quality/
     │       ├── security-and-hardening/
-    │       ├── ponytail/
-    │       ├── ponytail-review/
-    │       ├── ponytail-audit/
-    │       ├── ponytail-debt/
+    │       ├── api-and-interface-design/
+    │       ├── debugging-and-error-recovery/
     │       └── ui-ux-pro-max/
     ├── memories/
     │   └── MEMORY.md                ← persisted across sessions

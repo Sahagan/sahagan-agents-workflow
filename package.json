@@ -1,6 +1,6 @@
 {
   "name": "sahagan-agents-workflow",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "license": "MIT",
   "description": "Multi-agent workflow template — อั่งเปา (Orchestrator), พายุ (Dev Lead), ใต้ฝุ่น (QA Lead), ติ่มซำ (UX/UI Designer)",
   "keywords": [
